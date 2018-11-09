@@ -1,0 +1,62 @@
+*** BUSCA VALORES DE RATEIOS POR CONTA CONTABIL NA MATRIZ QUE CORRESPONDEU AO CENTRO DE CUSTO DE ALGUMA FILIAL - EXEMPLO: PE
+*** RATEIOS DE BUSCA SEMPRE A DEBITO
+
+select l.ctadeb,sum(vlrrat)
+from e640lct l
+
+inner join e640rat r on
+
+l.numlct  = r.numlct and
+l.ctadeb = r.ctared
+
+where l.datlct >= '01/03/2016' and r.codccu = 1096 and codfil = 1
+
+group by l.ctadeb
+
+
+**** TROCA DE FILIAL para 1
+http://chicago.frescatto.com/sapiensweb/conector?SIS=CO&LOGIN=SID&ACAO=EXESENHA&NOMUSU=vinicius&SENUSU=amor85&PROXACAO=SID.Srv.AltEmpFil&CodEmp=1&CodFil=1
+
+
+
+**** CRIA UM NOVO LOTE CONTABIL NA FILIAL LOGADA PELO USUARIO - CERTIFICAR SE ESTE É A MATRIZ
+
+
+http://chicago.frescatto.com/sapiensweb/conector?SIS=CO&LOGIN=SID&ACAO=EXESENHA&NOMUSU=vinicius&SENUSU=amor85&PROXACAO=SID.Lct.GerarLote&DatLot=12/04/2016&TotInf=2805.55
+
+
+
+***** GERA O LANÇAMENTO A CREDITO DO RATEIO NA MATRIZ
+
+http://chicago.frescatto.com/sapiensweb/conector?SIS=CO&LOGIN=SID&ACAO=EXESENHA&NOMUSU=vinicius&SENUSU=amor85&PROXACAO=SID.Lct.Gravar&NumLot=106900&CtaCre=7882&VlrLct=2805.55&CplLct=teste&DatLct=12/04/2016&CtaRed1=7882&CodCcu1=1096&PerRat1=100&vlrRat1=2805.55
+
+
+
+**** TROCA DE FILIAL
+http://chicago.frescatto.com/sapiensweb/conector?SIS=CO&LOGIN=SID&ACAO=EXESENHA&NOMUSU=vinicius&SENUSU=amor85&PROXACAO=SID.Srv.AltEmpFil&CodEmp=1&CodFil=7
+
+
+
+**** CRIA UM NOVO LOTE CONTABIL NA FILIAL 
+
+
+http://chicago.frescatto.com/sapiensweb/conector?SIS=CO&LOGIN=SID&ACAO=EXESENHA&NOMUSU=vinicius&SENUSU=amor85&PROXACAO=SID.Lct.GerarLote&DatLot=12/04/2016&TotInf=2805.55
+
+
+***** GERA O LANÇAMENTO A DEBITO DO RATEIO NA FILIAL
+
+http://chicago.frescatto.com/sapiensweb/conector?SIS=CO&LOGIN=SID&ACAO=EXESENHA&NOMUSU=vinicius&SENUSU=amor85&PROXACAO=SID.Lct.Gravar&NumLot=106900&CtaDeb=7882&VlrLct=2805.55&CplLct=teste&DatLct=12/04/2016&CtaRed1=7882&CodCcu1=1096&PerRat1=100&vlrRat1=2805.55
+
+
+<f:facet name="footer">
+                    <p:commandButton process="checkboxDT" update=":form:multiCarDetail" icon="ui-icon-search" value="View" oncomplete="PF('multiCarDialog').show()" />
+                </f:facet>
+
+
+L0p6ekIoZP
+
+L0p6ekIoZP
+L0p6ekIoZP
+L0p6ekIoZP
+L0p6ekIoZP
+L0p6ekIoZP

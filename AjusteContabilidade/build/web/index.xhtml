@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Ajustes da Contabilidade - FRESCATTO</title>
+    </h:head>
+    <h:body>
+
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"  />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false" style= "display:none;margin-bottom:2em;height:317px;width: 88px;" >
+            <p:graphicImage url="/imgs/carrega1.gif" />
+        </p:dialog>
+        <h:form id="form">
+
+            <p:growl id="msgs" for="msg" sticky="true" />
+            <p:panel header="Ajustes de Lançamentos Contabeis" >  
+                <p:panelGrid columns="4">
+                    <p:outputLabel for="dtInicio" value="Data Inicio : " />
+                    <p:calendar id="dtInicio" value="#{lancamentoManager.dtInicio}" />
+
+                    <p:outputLabel for="dtFim" value="Data Fim : " />
+                    <p:calendar id="dtFim" value="#{lancamentoManager.dtFim}" />
+                    
+                    <p:outputLabel for="DtLct" value="Data Lote : " />
+                    <p:calendar id="DtLct" value="#{lancamentoManager.dataLote}" />
+                    
+                    <p:outputLabel value="" />
+                    <p:outputLabel value="" />
+                    
+                    <p:outputLabel for="FilOri" value="Origem : " />
+                    <p:selectOneMenu id="FilOri" value="#{lancamentoManager.filialOrigem}" style="width:170px">
+                        <f:selectItem itemLabel="Selecione" itemValue="0" noSelectionOption="true" />
+                        <f:selectItems value="#{lancamentoManager.filiais}" />
+                    </p:selectOneMenu>
+                    
+                    <p:outputLabel for="CC" value="Centro de Custo : " />
+                    <p:inputText id="CC" value="#{lancamentoManager.centroCusto}" />
+                    
+                    <p:outputLabel for="FilDes" value="Destino : " />
+                    <p:selectOneMenu id="FilDes" value="#{lancamentoManager.filialDestino}" style="width:170px">
+                        <f:selectItem itemLabel="Selecione" itemValue="" noSelectionOption="true" />
+                        <f:selectItems value="#{lancamentoManager.filiais}" />
+                    </p:selectOneMenu>
+                    
+                    <p:outputLabel for="CCD" value="Centro de Custo : " />
+                    <p:inputText id="CCD" value="#{lancamentoManager.centroCustoDestino}" />
+                    
+                    <p:outputLabel for="usuario" value="Usuario Sapiens : " />
+                    <p:inputText id="usuario" value="#{lancamentoManager.usuarioSapiens}" />
+
+                    <p:outputLabel for="senha" value="Senha Sapiens : " />
+                    <p:password id="senha" value="#{lancamentoManager.senhaSapiens}" />
+
+                    <p:commandButton icon="ui-icon-search" value="Buscar" action="#{lancamentoManager.buscaLancamentos}" update="msgs,dados" />
+
+                </p:panelGrid>
+                <br/>
+                <br/>
+
+                <p:dataTable id="dados" var="lancamento" value="#{lancamentoManager.lancamentos}" selection="#{lancamentoManager.lancamentosSelecionados}" rowKey="#{lancamento.numLct}" style="margin-bottom:0"
+                              emptyMessage="Nenhum registro encontrado">
+                   
+                    <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                    <p:column headerText="Numero Lancto">
+                        <h:outputText value="#{lancamento.numLct}" />
+                    </p:column>
+                    <p:column headerText="Conta Débito">
+                        <h:outputText value="#{lancamento.ctaDeb}" />
+                    </p:column>
+                    <p:column headerText="Centro de Custo">
+                        <h:outputText value="#{lancamento.codCcu1}" />
+                    </p:column>
+                    <p:column headerText="Valor do Rateio">
+                        
+                        <h:outputText value="#{lancamento.vlrRat1}" >
+                            <f:convertNumber type="currency" currencySymbol="R$" />
+                        </h:outputText>
+                    </p:column>
+
+                    <f:facet name="footer">
+                        <br/>
+                        <br/>
+                     
+                        <p:commandButton icon="ui-icon-disk" value="Ajustar" action="#{lancamentoManager.ajustar}" update="form:msgs"/>
+                    </f:facet>
+                </p:dataTable>
+
+            </p:panel>
+        </h:form>
+
+    </h:body>
+</html>
+
